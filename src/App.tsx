@@ -13,40 +13,21 @@ import RegisterPage from "./modules/Register/pages/Registerpage";
 export default function App() {
   return (
     <BrowserRouter>
-      <DomainGuard> {/* <-- 2. Envolvemos TODO el Layout dentro del DomainGuard */}
+      {/* Las rutas públicas van fuera del DomainGuard */}
+      <Routes>
+        <Route path="/sso-callback" element={<SSOCallbackPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Routes>
+
+      {/* Solo las rutas privadas van dentro del DomainGuard */}
+      <DomainGuard>
         <MainLayout>
           <Routes>
-            <Route path="/sso-callback" element={<SSOCallbackPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            {/* Rutas de acceso general (Cualquier empleado logueado con @sc2.cl) */}
             <Route path="/" element={<DashboardPage />} />
             <Route path="/inventory" element={<InventoryPage />} />
-
-            {/* Rutas de acceso restringido (Solo ADMIN) */}
-            <Route 
-              path="/rrhh" 
-              element={
-                <AdminGuard>
-                  <RRHHPage />
-                </AdminGuard>
-              } 
-            />
-            <Route 
-              path="/supply" 
-              element={
-                <AdminGuard>
-                  <SupplyPage />
-                </AdminGuard>
-              } 
-            />
-            <Route 
-              path="/admin" 
-              element={
-                <AdminGuard>
-                  <AdminPage />
-                </AdminGuard>
-              } 
-            />
+            <Route path="/rrhh" element={<AdminGuard><RRHHPage /></AdminGuard>} />
+            <Route path="/supply" element={<AdminGuard><SupplyPage /></AdminGuard>} />
+            <Route path="/admin" element={<AdminGuard><AdminPage /></AdminGuard>} />
           </Routes>
         </MainLayout>
       </DomainGuard>
