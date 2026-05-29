@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import { supabase } from '../../../lib/supabase';
-import { useUser } from '@clerk/clerk-react';
 
 interface Employee {
   id: string;
@@ -49,7 +49,6 @@ interface ContractRecord {
 }
 
 export default function RRHHPage() {
-  const { user } = useUser();
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -97,7 +96,7 @@ export default function RRHHPage() {
     }
   };
 
-  const handleCreateEmployee = async (e: React.FormEvent) => {
+  const handleCreateEmployee = async (e: FormEvent) => {
     e.preventDefault();
     try {
       setIsProcessing(true);
@@ -107,7 +106,7 @@ export default function RRHHPage() {
         email: newEmployee.email.trim(),
         department: newEmployee.department,
         position: newEmployee.position.trim(),
-        status: 'ACTIVO' // <-- Modificado al español
+        status: 'ACTIVO'
       }]);
       if (error) throw error;
       await fetchEmployees();
@@ -121,9 +120,6 @@ export default function RRHHPage() {
     }
   };
 
-  // ==========================================
-  // NUEVA FUNCIÓN: ACTUALIZAR ESTADO OPERATIVO
-  // ==========================================
   const handleUpdateStatus = async (newStatus: string) => {
     if (!selectedEmployee) return;
     try {
@@ -134,7 +130,6 @@ export default function RRHHPage() {
       
       if (error) throw error;
 
-      // Actualizar estado local inmediatamente para la UI
       setSelectedEmployee({ ...selectedEmployee, status: newStatus });
       await fetchEmployees();
     } catch (error) {
@@ -145,9 +140,6 @@ export default function RRHHPage() {
     }
   };
 
-  // ==========================================
-  // CARGAS DEL DOSSIER (Asistencia, Activos, Contrato)
-  // ==========================================
   const loadAttendance = async (employeeId: string) => {
     const { data } = await supabase.from('rrhh_attendance').select('*').eq('employee_id', employeeId).order('record_date', { ascending: false }).limit(7);
     if (data) setAttendanceRecords(data);
@@ -198,9 +190,6 @@ export default function RRHHPage() {
     loadContract(emp.id);
   };
 
-  // ==========================================
-  // ACCIONES OPERATIVAS
-  // ==========================================
   const handleClockAction = async (type: 'IN' | 'OUT') => {
     if (!selectedEmployee) return;
     try {
@@ -239,7 +228,7 @@ export default function RRHHPage() {
     } finally { setIsProcessing(false); }
   };
 
-  const handleSaveContract = async (e: React.FormEvent) => {
+  const handleSaveContract = async (e: FormEvent) => {
     e.preventDefault();
     if (!selectedEmployee) return;
     try {
@@ -303,7 +292,7 @@ export default function RRHHPage() {
                 <th className="p-4 font-mono text-[10px] text-[#c4c7c7]">NOMBRE COMPLETO</th>
                 <th className="p-4 font-mono text-[10px] text-[#c4c7c7]">DEPARTAMENTO</th>
                 <th className="p-4 font-mono text-[10px] text-[#c4c7c7]">CARGO</th>
-                <th className="p-4 font-mono text-[10px] text-[#c4c7c7] text-center">ESTADO</th> {/* <-- NUEVA COLUMNA --> */}
+                <th className="p-4 font-mono text-[10px] text-[#c4c7c7] text-center">ESTADO</th>
                 <th className="p-4 font-mono text-[10px] text-[#c4c7c7] text-right">OPERACIÓN</th>
               </tr>
             </thead>
@@ -315,7 +304,6 @@ export default function RRHHPage() {
                   <td className="p-4 font-mono text-[10px] text-[#c4c7c7]"><span className="bg-[#1a1c1c] border border-[#444748] rounded px-2 py-1">{emp.department}</span></td>
                   <td className="p-4 font-mono text-xs text-[#e3e2e2]">{emp.position}</td>
                   
-                  {/* <-- BADGES DE ESTADO (Activo/Vacaciones/Baja) --> */}
                   <td className="p-4 text-center">
                     {emp.status === 'ACTIVO' || emp.status === 'ACTIVE' ? (
                       <span className="bg-[#ffe16d]/10 text-[#ffe16d] border border-[#ffe16d]/30 px-2 py-1 rounded text-[10px] font-bold">ACTIVO</span>
@@ -380,7 +368,6 @@ export default function RRHHPage() {
                         <div className="text-sm text-[#e3e2e2] bg-[#121414] border border-[#444748] px-3 py-2 rounded">{selectedEmployee.email || 'No asignado'}</div>
                       </div>
                       
-                      {/* <-- CONTROLADOR DE ESTADO EN EL PERFIL --> */}
                       <div className="flex flex-col gap-1.5 border-t border-[#444748]/50 pt-3">
                         <label className="font-mono text-[10px] text-[#8e9192]">ESTADO OPERATIVO</label>
                         <select 
