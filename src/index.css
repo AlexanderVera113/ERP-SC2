@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+/* Inyección de Fuentes de Google */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+
+@theme {
+  /* Fuentes personalizadas */
+  --font-inter: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Colores del Tema Industrial de AERO-STARK */
+  --color-surface: #121414;
+  --color-primary-container: #0a0a0a;
+  --color-secondary-fixed: #ffe16d;
+  --color-secondary-container: #ffdb3c;
+  --color-on-secondary-fixed: #221b00;
+  --color-on-surface: #e3e2e2;
+  --color-on-surface-variant: #c4c7c7;
+  --color-outline-variant: #444748;
+  --color-outline: #8e9192;
+}
+
+/* Clases de utilidad globales */
+body {
+  font-family: var(--font-inter);
+  background-color: var(--color-primary-container);
+  color: var(--color-on-surface);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Soporte para Material Symbols Outlined */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Reset de Autofill para Inputs en Modo Oscuro */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px #121414 inset !important;
+  -webkit-text-fill-color: #e3e2e2 !important;
+}
+
+/* Custom scrollbar for high-end feel */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface, #121414); 
+}
+::-webkit-scrollbar-thumb {
+  background: #343535; 
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #444748; 
+}
+
+/* Chart animations */
+@keyframes drawLine {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+.chart-line {
+  stroke-dasharray: 1000;
+  animation: drawLine 2s ease-out forwards;
+}
