@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
 interface AdminConsoleProps {
@@ -118,7 +118,7 @@ export default function AdminConsole({ isOpen, onClose }: AdminConsoleProps) {
             break;
           }
 
-          const { data: emp, error: findError } = await supabase
+          const { data: emp } = await supabase
             .from('rrhh_employees')
             .select('id, full_name')
             .eq('employee_code', empCode)

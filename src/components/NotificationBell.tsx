@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase'; // Ajusta la ruta a tu cliente de Supabase
 
 interface Notification {

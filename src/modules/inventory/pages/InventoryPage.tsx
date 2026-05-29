@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { supabase } from '../../../lib/supabase';
 
 interface InventoryAsset {
@@ -99,7 +99,7 @@ export default function InventarioPage() {
   };
 
   // REGISTRAR NUEVO ACTIVO EN BASE DE DATOS
-  const handleCreateAsset = async (e: React.FormEvent) => {
+  const handleCreateAsset = async (e: FormEvent) => {
     e.preventDefault();
     try {
       setIsProcessing(true);

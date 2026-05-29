@@ -1,7 +1,18 @@
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
-export const generatePurchaseOrderPDF = (order: any, companyName: string = 'AERO-STARK LOGISTICS') => {
+// Definimos la interfaz estricta para que TypeScript no bloquee el build
+export interface PurchaseOrderExport {
+  po_number: string;
+  quantity: number;
+  unit_cost: number;
+  status: string;
+  order_date: string;
+  inv_suppliers: { name: string };
+  inv_assets: { id: string; asset_code: string; name: string };
+}
+
+export const generatePurchaseOrderPDF = (order: PurchaseOrderExport, companyName: string = 'SC2 LOGISTICS COMMAND') => {
   const doc = new jsPDF();
 
   // 1. Cabecera del Documento
@@ -52,6 +63,7 @@ export const generatePurchaseOrderPDF = (order: any, companyName: string = 'AERO
   });
 
   // 5. Totales y Firmas
+  // El bypass de (doc as any) se mantiene porque es necesario para autotable
   const finalY = (doc as any).lastAutoTable.finalY || 100;
   
   doc.setFontSize(12);

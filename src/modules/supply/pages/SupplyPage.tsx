@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { supabase } from '../../../lib/supabase';
 import { useUser } from '@clerk/clerk-react';
 import { generatePurchaseOrderPDF } from '../../../utils/pdfExport'; // <-- AÑADIDA LA IMPORTACIÓN DEL MOTOR PDF
@@ -72,7 +72,7 @@ export default function SupplyPage() {
   // ==========================================
   // OPERACIONES CRUD: PROVEEDORES
   // ==========================================
-  const handleCreateSupplier = async (e: React.FormEvent) => {
+  const handleCreateSupplier = async (e: FormEvent) => {
     e.preventDefault();
     try {
       setIsProcessing(true);
@@ -114,7 +114,7 @@ export default function SupplyPage() {
   // ==========================================
   // OPERACIONES CRUD: ÓRDENES DE COMPRA
   // ==========================================
-  const handleCreateOrder = async (e: React.FormEvent) => {
+  const handleCreateOrder = async (e: FormEvent) => {
     e.preventDefault();
     try {
       setIsProcessing(true);

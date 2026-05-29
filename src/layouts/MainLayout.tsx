@@ -1,12 +1,12 @@
-import React, { useState } from 'react'; // <-- Importamos useState para controlar la terminal
+import { useState, ReactNode } from 'react'; // <-- Purgada la importación global de React
 import { Link, useLocation } from 'react-router-dom';
 import { UserButton } from '@clerk/clerk-react';
 import NotificationBell from '../components/NotificationBell';
-import AdminConsole from '../components/AdminConsole'; // <-- IMPORTAMOS LA NUEVA CONSOLA
+import AdminConsole from '../components/AdminConsole'; 
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
+export default function MainLayout({ children }: { children: ReactNode }) { // <-- Uso directo de ReactNode
   const location = useLocation();
-  const [isConsoleOpen, setIsConsoleOpen] = useState(false); // <-- ESTADO DE CONTROL PARA LA TERMINAL
+  const [isConsoleOpen, setIsConsoleOpen] = useState(false);
 
   // Función interna de Senior para verificar qué pestaña está activa y aplicar los estilos de Stitch
   const getLinkClass = (path: string) => {
@@ -40,9 +40,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           <span className="font-bold text-[#ffe16d] tracking-tight">SC2 ERP</span>
         </div>
         <div className="flex items-center gap-4">
-          {/* <-- CAMPANITA INTEGRADA EN MÓVIL --> */}
           <NotificationBell />
-          {/* Avatar seguro y real controlado por Clerk */}
           <UserButton afterSignOutUrl="/" />
         </div>
       </header>
@@ -116,16 +114,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           
           {/* Perfil del Operador de Clerk */}
           <div className="flex items-center justify-end gap-4 w-2/3">
-            
-            {/* <-- CAMPANITA INTEGRADA EN DESKTOP --> */}
             <NotificationBell />
-
             <div className="h-6 w-px bg-[#444748] mx-2"></div>
-            
-            {/* Componente oficial de Clerk */}
             <UserButton afterSignOutUrl="/" />
             
-            {/* <-- CONECTAMOS EL BOTÓN AL MÉTODO DE APERTURA DE LA CONSOLA --> */}
             <button 
               onClick={() => setIsConsoleOpen(true)}
               className="ml-2 bg-[#ffe16d] text-[#221b00] px-4 py-2 rounded font-mono text-[10px] font-bold hover:bg-[#ffdb3c] transition-colors shadow-[0_0_8px_rgba(255,225,109,0.2)] cursor-pointer"
@@ -143,7 +135,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       </main>
 
       {/* ========================================================= */}
-      {/* 4. MENÚ INFERIOR TÁCTIL (Solo se ve en móviles)           */}
+      {/* 4. MENÚ INFERIOR TÁCTIL CORREGIDO (Solo se ve en móviles) */}
       {/* ========================================================= */}
       <nav className="md:hidden flex justify-around items-center w-full h-16 bg-[#121414] border-t border-[#444748] fixed bottom-0 z-50">
         <Link to="/" className={getMobileLinkClass('/')}>
@@ -154,21 +146,20 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           <span className="material-symbols-outlined text-[24px]">inventory_2</span>
           <span className="font-mono text-[9px] mt-1">Inventory</span>
         </Link>
-        <Link to="/rrhh" className={getLinkClass('/rrhh')}>
-          <span className="material-symbols-outlined">engineering</span>
-          Personnel (RRHH)
+        <Link to="/rrhh" className={getMobileLinkClass('/rrhh')}>
+          <span className="material-symbols-outlined text-[24px]">engineering</span>
+          <span className="font-mono text-[9px] mt-1">RRHH</span>
         </Link>
-        <Link to="/supply" className={getLinkClass('/supply')}>
-          <span className="material-symbols-outlined">local_shipping</span>
-          Supply Chain
+        <Link to="/supply" className={getMobileLinkClass('/supply')}>
+          <span className="material-symbols-outlined text-[24px]">local_shipping</span>
+          <span className="font-mono text-[9px] mt-1">Supply</span>
         </Link>
-        <Link to="/admin" className={getLinkClass('/admin')}>
-          <span className="material-symbols-outlined">shield_person</span>
-          Panel Admin
+        <Link to="/admin" className={getMobileLinkClass('/admin')}>
+          <span className="material-symbols-outlined text-[24px]">shield_person</span>
+          <span className="font-mono text-[9px] mt-1">Admin</span>
         </Link>
       </nav>
 
-      {/* <-- RENDERIZAMOS EL MODAL DE LA TERMINAL EN LA RAÍZ DEL COMPONENTE --> */}
       <AdminConsole isOpen={isConsoleOpen} onClose={() => setIsConsoleOpen(false)} />
 
     </div>

@@ -1,38 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../../../lib/supabase';
 
 export default function AdminPage() {
-  const [logs, setLogs] = useState<any[]>([]);
+  // Se han eliminado las variables 'logs' e 'isLoading' ya que no se consumían en el JSX
   const [catalog, setCatalog] = useState<any[]>([]);
   const [valuation, setValuation] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => { loadAdminData(); }, []);
 
   const loadAdminData = async () => {
-    setIsLoading(true);
-    const [resLogs, resCat, resVal] = await Promise.all([
+    const [resCat, resVal] = await Promise.all([
+      // Se mantiene la carga de logs en segundo plano si la API lo requiere, 
+      // pero no se guarda en el estado local para evitar errores de TypeScript
       supabase.from('sys_audit_logs').select('*').order('created_at', { ascending: false }).limit(20),
       supabase.from('sys_catalog').select('*').order('category'),
       supabase.from('vw_inventory_valuation').select('*')
     ]);
-    if (resLogs.data) setLogs(resLogs.data);
+    
     if (resCat.data) setCatalog(resCat.data);
     if (resVal.data) setValuation(resVal.data);
-    setIsLoading(false);
   };
 
   // Utilidad de Exportación CSV (Reportabilidad)
   const exportToCSV = (data: any[], filename: string) => {
+    if (!data || data.length === 0) return;
+    
     const csvContent = "data:text/csv;charset=utf-8," + 
       Object.keys(data[0]).join(",") + "\n" +
       data.map(e => Object.values(e).join(",")).join("\n");
+    
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", `${filename}.csv`);
     document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link); // Buena práctica: remover el enlace temporal
   };
 
   return (
