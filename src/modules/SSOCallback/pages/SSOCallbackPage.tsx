@@ -5,8 +5,8 @@ export default function SSOCallbackPage() {
   const clerk = useClerk();
 
   useEffect(() => {
-    // Forzamos el manejo del callback de forma explícita
-    clerk.handleRedirectCallback().catch((err) => {
+    // Añadimos {} para satisfacer el requerimiento de parámetros de TypeScript
+    clerk.handleRedirectCallback({}).catch((err) => {
       console.error("Error crítico en el callback de Clerk:", err);
     });
   }, [clerk]);
