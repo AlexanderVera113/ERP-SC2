@@ -5,11 +5,13 @@ export default function LoginTerminal() {
 
   const handleGoogleLogin = async () => {
     if (!signIn) return;
+    
     try {
-      // Dispara el flujo nativo de Google OAuth configurado en tu Clerk
+      // authenticateWithRedirect maneja internamente tanto Sign In como Sign Up
       await signIn.authenticateWithRedirect({
         strategy: 'oauth_google',
-        redirectUrl: '/sso-callback',
+        // Esta es la ruta donde pondrás el componente <AuthenticateWithRedirectCallback />
+        redirectUrl: '/sso-callback', 
         redirectUrlComplete: '/',
       });
     } catch (err) {
@@ -50,7 +52,6 @@ export default function LoginTerminal() {
 
         {/* Tarjeta de Autenticación */}
         <div className="w-full bg-surface border border-outline-variant/30 relative p-8 md:p-10 shadow-2xl shadow-black/50">
-          {/* Línea de Acento Superior Estilo Neon */}
           <div className="absolute top-0 left-0 w-full h-[1px] bg-secondary-fixed shadow-[0_0_8px_rgba(255,225,109,0.3)]" />
           
           <div className="flex flex-col gap-6">
@@ -63,7 +64,6 @@ export default function LoginTerminal() {
               </p>
             </div>
 
-            {/* Botón de Acción Conectado a Clerk */}
             <button
               onClick={handleGoogleLogin}
               className="mt-2 w-full bg-secondary-fixed text-on-secondary-fixed font-mono text-xs py-4 px-6 flex items-center justify-center gap-2 hover:bg-secondary-container hover:shadow-[0_0_15px_rgba(255,225,109,0.2)] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-secondary-fixed focus:ring-offset-2 focus:ring-offset-surface relative overflow-hidden group/btn cursor-pointer"
@@ -89,7 +89,6 @@ export default function LoginTerminal() {
             System Nominal
           </span>
         </div>
-
       </main>
     </div>
   );
