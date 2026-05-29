@@ -8,6 +8,7 @@ import AdminPage from "./modules/admin/pages/AdminPage";
 import AdminGuard from "./components/AdminGuard";
 import DomainGuard from "./components/DomainGuard"; // <-- 1. Importamos el nuevo guardián de dominio
 import SSOCallbackPage from "./modules/SSOCallback/pages/SSOCallbackPage";
+import RegisterPage from "./modules/Register/pages/Registerpage";
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <MainLayout>
           <Routes>
             <Route path="/sso-callback" element={<SSOCallbackPage />} />
+            <Route path="/register" element={<RegisterPage />} />
             {/* Rutas de acceso general (Cualquier empleado logueado con @sc2.cl) */}
             <Route path="/" element={<DashboardPage />} />
             <Route path="/inventory" element={<InventoryPage />} />
