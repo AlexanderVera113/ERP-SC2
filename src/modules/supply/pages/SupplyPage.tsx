@@ -1,4 +1,5 @@
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect } from 'react';
+import type { FormEvent } from 'react';
 import { supabase } from '../../../lib/supabase';
 import { useUser } from '@clerk/clerk-react';
 import { generatePurchaseOrderPDF } from '../../../utils/pdfExport'; // <-- AÑADIDA LA IMPORTACIÓN DEL MOTOR PDF

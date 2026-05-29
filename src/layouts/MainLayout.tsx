@@ -1,4 +1,5 @@
-import { useState, ReactNode } from 'react'; // <-- Purgada la importación global de React
+import { useState } from 'react';
+import type { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { UserButton } from '@clerk/clerk-react';
 import NotificationBell from '../components/NotificationBell';
